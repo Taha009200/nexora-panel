@@ -1,0 +1,53 @@
+
+### Option C: Manual Upload
+
+1. Click **"New"** → **"Empty Service"**
+2. Name it `nexora-backend`
+3. Use the Railway CLI or GitHub integration to deploy
+
+---
+
+## 4. Environment Variables
+
+In Railway, go to your backend service → **"Variables"** tab, and add:
+
+### Required Variables:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NODE_ENV` | Environment mode | `production` |
+| `PORT` | Server port | `3000` |
+| `JWT_SECRET` | JWT signing key (long random string) | `a1b2c3d4e5f6g7h8i9j0...` |
+| `INITIAL_ADMIN_USERNAME` | First admin username | `admin` |
+| `INITIAL_ADMIN_PASSWORD` | First admin password (strong) | `MySecurePass!2024` |
+| `INITIAL_ADMIN2_USERNAME` | Second admin username | `admin2` |
+| `INITIAL_ADMIN2_PASSWORD` | Second admin password (strong) | `MySecurePass2!2024` |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://...` |
+| `CORS_ORIGIN` | Frontend URL | `https://nexora-frontend.up.railway.app` |
+
+### Optional Variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JWT_EXPIRES_IN` | Token expiration | `24h` |
+| `BCRYPT_ROUNDS` | Password hashing rounds | `12` |
+| `MAX_LOGIN_ATTEMPTS` | Max failed logins before lockout | `5` |
+| `LOCKOUT_DURATION_MINUTES` | Lockout duration | `15` |
+
+**IMPORTANT:**
+- `JWT_SECRET` must be a long random string (at least 32 characters)
+- Passwords must be strong (mix of uppercase, lowercase, numbers, symbols)
+- Never share or commit these values
+
+---
+
+## 5. Migrations
+
+Migrations run automatically on server start in production mode.
+
+The server will:
+1. Connect to PostgreSQL
+2. Run any pending migrations
+3. Create the `administrators` table if it doesn't exist
+
+To verify migrations ran successfully:

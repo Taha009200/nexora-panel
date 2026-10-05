@@ -1,0 +1,15 @@
+
+**If you get HTTP 503:**
+- Database is not connected
+- Check `DATABASE_URL` variable
+- Check PostgreSQL service is running
+
+**If you get connection refused:**
+- Backend is not running
+- Check Railway logs for errors
+
+---
+
+## 9. Test Login Endpoint
+
+### Test with valid credentials:

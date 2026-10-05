@@ -1,0 +1,187 @@
+
+**IMPORTANT:** The frontend URL must match exactly (including `https://` and no trailing slash).
+
+---
+
+## 13. Test Login from Browser
+
+1. Open your frontend URL in a browser
+2. You should see **"Backend Online"** status indicator
+3. Enter your admin username and password
+4. Click **"Sign In"**
+5. You should be redirected to the dashboard
+
+### Verify in Browser DevTools:
+
+1. Open DevTools (F12)
+2. Go to **"Network"** tab
+3. Look for the login request:
+   ```
+   POST https://YOUR-BACKEND-URL/api/v1/auth/login
+   ```
+4. Verify the response is HTTP 200
+5. Verify no requests go to `localhost` or `127.0.0.1`
+
+---
+
+## Troubleshooting
+
+### 502 Bad Gateway
+
+**Symptoms:**
+- Health check fails with 502
+- Login fails with 502
+
+**Causes:**
+- Backend crashed
+- Port mismatch
+- Health check path wrong
+
+**Solutions:**
+1. Check Railway logs: `railway logs`
+2. Verify `PORT` is set to `3000`
+3. Verify health check path is `/api/v1/health`
+4. Check if backend process is running
+
+---
+
+### 404 Not Found
+
+**Symptoms:**
+- `/api/v1/health` returns 404
+- `/api/v1/auth/login` returns 404
+
+**Causes:**
+- Wrong API path
+- Backend not deployed correctly
+- Wrong service URL
+
+**Solutions:**
+1. Verify the full URL: `https://YOUR-BACKEND-URL/api/v1/health`
+2. Check Railway service URL
+3. Verify routes exist in backend code
+
+---
+
+### 401 Unauthorized
+
+**Symptoms:**
+- Login returns 401
+- Protected routes return 401
+
+**Causes:**
+- Wrong username/password
+- Account locked
+- Token expired
+
+**Solutions:**
+1. Verify credentials match environment variables
+2. Check if account is locked (wait 15 minutes)
+3. Check `JWT_SECRET` is set
+4. Verify token is being sent correctly
+
+---
+
+### CORS Errors
+
+**Symptoms:**
+- Browser shows CORS error
+- Login works in curl but not browser
+
+**Causes:**
+- `CORS_ORIGIN` not set correctly
+- Frontend URL doesn't match
+
+**Solutions:**
+1. Verify `CORS_ORIGIN` matches frontend URL exactly
+2. Check for trailing slashes
+3. For testing, temporarily set `CORS_ORIGIN=*`
+4. Check browser console for exact error
+
+---
+
+### Database Connection Issues
+
+**Symptoms:**
+- Health check returns 503
+- Server crashes on start
+- Migration errors
+
+**Causes:**
+- Wrong `DATABASE_URL`
+- PostgreSQL not running
+- Network issues
+
+**Solutions:**
+1. Verify `DATABASE_URL` format
+2. Check PostgreSQL service is READY
+3. Test connection: `railway connect`
+4. Check Railway logs for connection errors
+
+---
+
+### PORT Issues
+
+**Symptoms:**
+- Backend starts but not accessible
+- Railway health check fails
+
+**Causes:**
+- Wrong port configuration
+- Port not exposed
+
+**Solutions:**
+1. Verify `PORT=3000` in environment
+2. Check Dockerfile exposes port 3000
+3. Railway automatically maps PORT
+
+---
+
+### localhost References
+
+**Symptoms:**
+- Frontend tries to connect to localhost
+- Login fails in production
+
+**Causes:**
+- `VITE_API_BASE_URL` not set
+- Frontend using development fallback
+
+**Solutions:**
+1. Set `VITE_API_BASE_URL` to backend URL
+2. Rebuild frontend after setting variable
+3. Verify no localhost in built files
+
+---
+
+### Failed Migrations
+
+**Symptoms:**
+- Server crashes on start
+- "Migrations completed" not in logs
+
+**Causes:**
+- Database connection issues
+- Migration conflicts
+
+**Solutions:**
+1. Check database is accessible
+2. Check Railway logs for migration errors
+3. Run migrations manually: `railway run npm run migrate`
+4. Check if `administrators` table exists
+
+---
+
+## Quick Verification Checklist
+
+- [ ] PostgreSQL service is READY
+- [ ] Backend service is deployed
+- [ ] All environment variables are set
+- [ ] Health check returns 200
+- [ ] Login with valid credentials returns 200
+- [ ] Login with invalid password returns 401
+- [ ] Frontend is deployed
+- [ ] `VITE_API_BASE_URL` is set
+- [ ] CORS is configured
+- [ ] Browser login works
+- [ ] No localhost requests in production

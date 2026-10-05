@@ -1,0 +1,15 @@
+
+---
+
+## 6. Seed Admin Accounts
+
+The seed process runs automatically on server start.
+
+It will:
+1. Check if `admin` exists
+2. If exists, verify password hash matches `INITIAL_ADMIN_PASSWORD`
+3. If password changed, update the hash
+4. If not exists, create with hashed password
+5. Repeat for `admin2`
+
+To verify seeding:

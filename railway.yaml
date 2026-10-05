@@ -1,0 +1,27 @@
+# Railway configuration for NEXORA
+# This file defines the services and their relationships
+
+services:
+  - name: nexora-backend
+    path: ./server
+    dockerfilePath: ./server/Dockerfile
+    healthcheckPath: /api/v1/health
+    healthcheckTimeout: 100
+    restartPolicyType: ON_FAILURE
+    restartPolicyMaxRetries: 10
+    env:
+      NODE_ENV: production
+      PORT: 3000
+      JWT_SECRET: ${JWT_SECRET}
+      INITIAL_ADMIN_USERNAME: ${INITIAL_ADMIN_USERNAME}
+      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD}
+      INITIAL_ADMIN2_USERNAME: ${INITIAL_ADMIN2_USERNAME}
+      INITIAL_ADMIN2_PASSWORD: ${INITIAL_ADMIN2_PASSWORD}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+    dependsOn:
+      - nexora-postgres
+
+  - name: nexora-postgres
+    type: postgres
+    version: 15
+    databaseName: nexora

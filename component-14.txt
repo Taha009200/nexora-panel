@@ -1,0 +1,36 @@
+
+This tells the frontend where to find the backend API.
+
+---
+
+## 11. Deploy Frontend
+
+### Option A: Railway Static Site
+
+1. In Railway, click **"New"** → **"Static Site"**
+2. Connect your frontend repository
+3. Set build command: `npm run build`
+4. Set output directory: `dist`
+5. Set environment variable:
+   ```
+   VITE_API_BASE_URL=https://YOUR-BACKEND-URL/api/v1
+   ```
+
+### Option B: Railway Service
+
+1. In Railway, click **"New"** → **"Empty Service"**
+2. Connect your frontend repository
+3. Set build command: `npm run build`
+4. Set start command: `npm run preview`
+5. Set environment variable:
+   ```
+   VITE_API_BASE_URL=https://YOUR-BACKEND-URL/api/v1
+   ```
+
+---
+
+## 12. Configure CORS
+
+The backend CORS is configured via the `CORS_ORIGIN` environment variable.
+
+### For production:

@@ -1,0 +1,23 @@
+
+**Note:** The seed is idempotent - it can run multiple times safely.
+
+---
+
+## 7. Find Backend URL
+
+After deployment, Railway provides a URL for your backend service.
+
+1. Go to your backend service in Railway
+2. Click on the **"Settings"** tab
+3. Find the **"Networking"** section
+4. Your URL will be listed as:
+   ```
+   https://nexora-backend-production.up.railway.app
+   ```
+5. Copy this URL - you'll need it for testing and frontend config
+
+---
+
+## 8. Test Health Endpoint
+
+Test the health endpoint:
